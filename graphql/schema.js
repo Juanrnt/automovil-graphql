@@ -5,6 +5,7 @@ const {
   createAutomovil,
   addSoat,
   updateAutomovil,
+  deleteAutomovil,
 } = require("./mutations");
 
 const QueryType = new GraphQLObjectType({
@@ -26,6 +27,7 @@ const MutationType = new GraphQLObjectType({
     createAutomovil,
     addSoat,
     updateAutomovil,
+    deleteAutomovil,
   },
 });
 

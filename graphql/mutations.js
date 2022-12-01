@@ -76,6 +76,23 @@ const updateAutomovil = {
   },
 };
 
+const deleteAutomovil = {
+  type: GraphQLString,
+  description: "Delete a automovil",
+  args: {
+    automovilId: { type: GraphQLID },
+  },
+  async resolve(_, { automovilId }) {
+    const automovilDeleted = await Automovil.findByIdAndDelete({
+      _id: automovilId,
+    });
+
+    if (!automovilDeleted) throw new Error("Automovil no found");
+
+    return console.log(automovilDeleted, "Automovil delete");
+  },
+};
+
 const addSoat = {
   type: SeguroType,
   description: "Add a seguro to a automovil",
@@ -104,5 +121,6 @@ module.exports = {
   register,
   createAutomovil,
   updateAutomovil,
+  deleteAutomovil,
   addSoat,
 };
