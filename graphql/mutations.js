@@ -29,21 +29,50 @@ const createAutomovil = {
     modelo: { type: GraphQLString },
     motor: { type: GraphQLString },
     color: { type: GraphQLString },
-    authorId: { type: GraphQLString},
+    authorId: { type: GraphQLString },
   },
   async resolve(_, args) {
     const { marca, modelo, motor, color, authorId } = args;
 
-    const automovil = new Automovil({ 
-      marca, 
-      modelo, 
-      motor, 
+    const automovil = new Automovil({
+      marca,
+      modelo,
+      motor,
       color,
-      authorId
+      authorId,
     });
     await automovil.save();
 
     return automovil;
+  },
+};
+
+const updateAutomovil = {
+  type: AutomovilType,
+  description: "Update a automovil",
+  args: {
+    id: { type: GraphQLID },
+    marca: { type: GraphQLString },
+    modelo: { type: GraphQLString },
+    motor: { type: GraphQLString },
+    color: { type: GraphQLString },
+    authorId: { type: GraphQLString },
+  },
+  async resolve(_, args) {
+    const { marca, modelo, motor, color, authorId } = args;
+
+    const updatedAautomovil = await Automovil.findByIdAndUpdate(
+      { _id: args.id },
+      {
+        marca,
+        modelo,
+        motor,
+        color,
+        authorId,
+      }
+    );
+
+    return console.log(updatedAautomovil, "automovil upgrate");
   },
 };
 
@@ -71,34 +100,9 @@ const addSoat = {
   },
 };
 
-/* const createAutomovil = {
-  type: AutomovilType,
-  description: "Create a new automovil",
-  args: {
-    marca: { type: GraphQLString },
-    modelo: { type: GraphQLString },
-    motor: { type: GraphQLString },
-    color: { type: GraphQLString },
-  },
-  async resolve(_, args) {
-    console.log(args);
-
-    const automovil = new Automovil({
-      marca: args.marca,
-      modelo: args.modelo,
-      motor: args.motor,
-      color: args.color,
-    });
-    console.log(automovil);
-
-    await automovil.save();
-
-    return automovil;
-  },
-}; */
-
 module.exports = {
   register,
   createAutomovil,
+  updateAutomovil,
   addSoat,
 };
